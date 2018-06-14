@@ -167,6 +167,7 @@ P = Class.create(P, {
 				if (this.self.query.chid && this.self.query.chid !== program.channel.id) continue;
 				if (this.self.query.cat && this.self.query.cat !== program.category) continue;
 				if (this.self.query.type && this.self.query.type !== program.channel.type) continue;
+				if (this.self.query.flag && program.flags.indexOf(this.self.query.flag) === -1) continue;
 				if (nf) {
 					if (this.self.query.title && program.fullTitle.normalize(nf).match(query_title_norm) === null) continue;
 					if (this.self.query.desc && (!program.detail || program.detail.normalize(nf).match(query_desc_norm) === null)) continue;
@@ -443,6 +444,26 @@ P = Class.create(P, {
 									label     : a,
 									value     : a,
 									isSelected: ((this.self.query.type || []).indexOf(a) !== -1)
+								});
+							}.bind(this));
+
+							return array;
+						}.bind(this))()
+					}
+				},
+				{
+					key   : 'flag',
+					label : 'フラグ',
+					input : {
+						type : 'pulldown',
+						items: (function() {
+							var array = [];
+
+							['新', '終', '再', '字'].each(function(a) {
+								array.push({
+									label     : a,
+									value     : a,
+									isSelected: ((this.self.query.flag || []).indexOf(a) !== -1)
 								});
 							}.bind(this));
 
