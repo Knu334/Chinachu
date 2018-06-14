@@ -73,6 +73,13 @@ P = Class.create(P, {
 			}).render(this.view.content);
 		}
 		
+		new sakura.ui.Alert({
+			title		: 'Munin',
+			type		: 'green',
+			body		: '<br clear="all" /><div style="float: left;margin: 5px 0px 0px 5px;"><img src="/munin/Mirakurun_Error-week.png" /></div><div style="float: left;margin: 5px 0px 0px 5px;"><img src="/munin/Mirakurun_Stream-week.png" /></div><div style="float: left;margin: 5px 0px 0px 5px;"><img src="/munin/Mirakurun_Memory_Usage-week.png" /></div><div style="float: left;margin: 5px 0px 0px 5px;"><img src="/munin/Mirakurun_Timer_Accuracy-week.png" /></div><div style="float: left;margin: 5px 0px 0px 5px;"><img src="/munin/Mirakurun_Programs_DB-week.png" /></div><br clear="all" />',
+			disableClose: true
+		}).render(this.view.content);
+
 		return this;
 	}
 });
