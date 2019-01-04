@@ -444,6 +444,26 @@ P = Class.create(P, {
 					}
 				},
 				{
+					key   : 'flag',
+					label : 'フラグ',
+					input : {
+						type : 'pulldown',
+						items: (function() {
+							var array = [];
+
+							['新', '終', '再', '字'].each(function(a) {
+								array.push({
+									label     : a,
+									value     : a,
+									isSelected: ((this.self.query.flag || []).indexOf(a) !== -1)
+								});
+							}.bind(this));
+
+							return array;
+						}.bind(this))()
+					}
+				},
+				{
 					key   : 'pgid',
 					label : 'プログラムID',
 					input : {
