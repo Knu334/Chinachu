@@ -16,7 +16,7 @@ fi
 shopt -s extglob
 
 # variables
-NODE_VER=10.15.0
+NODE_VER=10.16.3
 
 main () {
   local SELF_PATH DIR SYM
@@ -138,9 +138,9 @@ chinachu_installer_node () {
   ensure_dir "$NAVE_DIR"
 
   echo "Installing Node using Nave..."
-  wget -O - https://github.com/isaacs/nave/archive/v0.5.1.tar.gz | tar zxvf - -C $NAVE_DIR nave-0.5.1/nave.sh
-  mv $NAVE_DIR/nave-0.5.1/nave.sh $NAVE_DIR/
-  rm -rfv $NAVE_DIR/nave-0.5.1
+  wget -O - https://github.com/isaacs/nave/archive/v2.3.0.tar.gz | tar zxvf - -C $NAVE_DIR nave-2.3.0/nave.sh
+  mv $NAVE_DIR/nave-2.3.0/nave.sh $NAVE_DIR/
+  rm -rfv $NAVE_DIR/nave-2.3.0
   ${NAVE_DIR}/nave.sh install $NODE_VER
   rm -fv ${NAVE_DIR}/node
   ln -sv $NODE_PATH ${NAVE_DIR}/node
@@ -171,15 +171,21 @@ chinachu_installer_ffmpeg () {
   cd $USR_DIR
 
   MACHINE=`uname -m`
-  if [ ${MACHINE} == "x86_64" ]; then
-    local FFMPEG_FN="ffmpeg-release-64bit-static"
+  if [ ${MACHINE} == "aarch64" ] || [ ${MACHINE} == "arm64" ] || [ ${MACHINE} == "armv8l" ]; then
+    local FFMPEG_FN="ffmpeg-release-arm64-static"
+  elif [ ${MACHINE} == "armhf" ] || [ ${MACHINE} == "armv7l" ]; then
+    local FFMPEG_FN="ffmpeg-release-armhf-static"
+  elif [ `echo ${MACHINE} | grep 'arm'` ]; then
+    local FFMPEG_FN="ffmpeg-release-armel-static"
+  elif [ ${MACHINE} == "x86_64" ]; then
+    local FFMPEG_FN="ffmpeg-release-amd64-static"
   else
-    local FFMPEG_FN="ffmpeg-release-32bit-static"
+    local FFMPEG_FN="ffmpeg-release-i686-static"
   fi
 
-  local FFMPEG_XZ="http://johnvansickle.com/ffmpeg/releases/${FFMPEG_FN}.tar.xz"
+  local FFMPEG_XZ="https://johnvansickle.com/ffmpeg/releases/${FFMPEG_FN}.tar.xz"
 
-  wget $FFMPEG_XZ
+  wget -O ${FFMPEG_FN}.tar.xz $FFMPEG_XZ
   xz -dv "${FFMPEG_FN}.tar.xz"
 
   tar -xvf "${FFMPEG_FN}.tar" -C bin --strip-components 1
